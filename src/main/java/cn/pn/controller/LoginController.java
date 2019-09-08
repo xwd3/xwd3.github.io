@@ -23,7 +23,7 @@ public class LoginController {
 
 
     /**
-     * 快捷注册（免密登陆）
+     * 快捷注册（免密登陆111）
      *
      * @param userAgent
      * @param user
