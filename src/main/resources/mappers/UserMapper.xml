@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.pn.dao.UserMapper">
+
+    <!--注册查重-->
+    <select id="duplicateChecking" resultType="cn.pn.pojo.User">
+        SELECT * FROM user WHERE userPhone=#{userPhone}
+    </select>
+
+    <!--登录-->
+    <select id="getLoginUser" resultType="cn.pn.pojo.User">
+        SELECT * FROM user WHERE userPhone=#{userPhone}
+    </select>
+
+    <!--注册-->
+    <insert id="register" parameterType="cn.pn.pojo.User">
+        INSERT INTO  user  (userPhone, userPassword) VALUES (#{usercode},#{userpwd})
+    </insert>
+
+    <!--我的钱包***我的余额-->
+    <select id="balance" parameterType="Integer">
+        SELECT userMonery FROM USER WHERE id=#{id}
+    </select>
+
+    <!--我的钱包***我的余额***交易记录-->
+    <select id="getOrderHistories" resultMap="userList">
+        SELECT o.*,t.*,s.sceneTime,s.sceneName FROM orderform AS o
+        RIGHT JOIN tradingrecord AS t ON t.orderId = o.id
+        LEFT JOIN scene AS s ON s.id = o.sceneId
+        WHERE t.creationById=#{id}  LIMIT #{fromPage},#{pageSize}
+   </select>
+
+    <resultMap id="userList" type="cn.pn.pojo.TradingRecord">
+        <result property="" column=""/>
+    </resultMap>
+    <!--我的演出***我的订单-->
+    <!-- <select id="getTradingrecord" resultMap="cn.OrderFormpn.pojo.">
+       SELECT
+         ord.id,
+         ord.creationDate,
+         ord.quantity,
+         ord.money,
+         ord.orderStatus,
+         sd.showName,
+         sd.startTime,
+         p.placeName,
+         sd.showPic
+       FROM
+         orderform AS ord
+       LEFT JOIN scene AS sc ON ord.sceneId = sc.id
+       LEFT JOIN showdetails AS sd ON sc.showId = sd.showId
+       LEFT JOIN place AS p ON sd.placeId = p.id
+
+         <where>
+
+             <if test="null=id and ''=id">&lt;!&ndash; 创建者ID &ndash;&gt;
+                 ord.creationById = #{id}
+             </if>
+             <if test="null=orderStatus and ''=orderStatus">&lt;!&ndash; 状态码 ：1.待支付 &ndash;&gt;
+                 AND ord.orderStatus = #{orderStatus}
+             </if>
+
+         </where>
+         LIMIT #{fromPage},#{pageSize}
+     </select>-->
+</mapper>

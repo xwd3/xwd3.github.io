@@ -1,0 +1,39 @@
+eureka:
+  client:
+      serviceUrl:
+        #defaultZone: http://39.105.114.254:666/eureka
+        defaultZone: http://101.132.180.235:7776/eureka
+server:
+  port: 8111
+spring:
+  application:
+    name: pn-user-provider
+  datasource:
+    url: jdbc:mysql://101.132.180.235:3306/pndb?useUnicode=true&characterEncoding=utf-8
+    username: pndb
+    password: 123456
+  # 端口不能与上面的相同。这里的服务name：service-hi 可以根据自己情况定义。
+  redis:
+      #数据库索引
+      database: 0
+      host: 101.132.180.235
+      #host: 39.105.114.254
+      port: 6379
+      password: test123
+      #password: tong666
+      jedis:
+         pool:
+           #最大连接数
+             max-active: 300
+           #最大空闲
+             max-idle: 100
+          #最小空闲
+             min-idle: 20
+          #最大阻塞等待时间(负数表示没限制)
+             max-wait: 200ms
+             timeout: 3000ms
+  jackson:
+      date-format: yyyy-MM-dd hh:mm:ss
+
+mybatis:
+   mapper-locations: classpath:mappers/**.xml
